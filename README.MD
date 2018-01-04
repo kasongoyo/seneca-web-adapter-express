@@ -41,6 +41,49 @@ seneca.ready(() => {
 })
 ```
 
+## Notes
+- **Modified Http header**  
+A forked version of [seneca-web-adapter-express]() which add ability for user to modify the final http response header sent to user. With this modified adapter now you can set;
+  - http header
+  - http status
+  - http cookie  
+
+
+  On the response by simplify set `web$` key with http details and `value` key with response data.
+
+  *Forexample*
+```
+ const pattern = {
+      role: opts.role,
+      cmd: 'delete',
+      ...
+    };
+
+ act(pattern)
+      .then((trip) => {
+        const web$ = { value: trip, status: 204 };
+        response(null, { web$ });
+      })
+      .catch((error) => {
+        response(error);
+      });
+``` 
+
+- **Modified Payload**  
+This forked version will also set `file` or `files` key in seneca payload args object received by seneca handler. File or files is the result of express multipart libraries like [multer](https://github.com/expressjs/multer) which use to add file or files to multipart http request. So if you use multer to process files then you will end up with seneca handler like the one below;  
+```
+seneca.add({ route: opts.route, action: 'update' }, updateImages); 
+
+function handleImages(payload, response) {
+    const files = payload.args.files;
+    const pattern = {
+      role: opts.role,
+      cmd: 'update',
+      files:files
+      ....
+    };
+```  
+
 ## Contributing
 The [Senecajs org][] encourage open participation. If you feel you can help in any way,
 be it with documentation, examples, extra testing, or new features please get in touch.

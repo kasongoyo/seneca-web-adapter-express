@@ -77,7 +77,10 @@ function handleRoute (seneca, options, request, reply, route, next) {
         route: route,
         params: request.params,
         query: request.query,
-        user: request.user || null
+        user: request.user || null,
+        // result from multer or any other multipart processor express middleware
+        file: request.file,
+        files: request.files
       }
     }
 
@@ -92,7 +95,21 @@ function handleRoute (seneca, options, request, reply, route, next) {
         return reply.redirect(route.redirect)
       }
       if (route.autoreply) {
-        return reply.send(response)
+        const web$ = response.web$
+        if (!web$) {
+          // web$ is not set so use standard adapter response
+          return reply.send(response)
+        }
+        // set http status
+        reply.status(web$.status || 200)
+        // set cookies
+        if (web$.cookies) {
+          Object.keys(web$.cookies).forEach(cookieName => {
+            const cookie = web$.cookies[cookieName]
+            reply.cookie(cookieName, cookie.value, cookie.options || {})
+          })
+        }
+        return reply.send(web$.value)
       }
     })
   }

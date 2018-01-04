@@ -41,9 +41,9 @@ seneca.ready(() => {
 })
 ```
 
-## Notes
+## Notes relate to this forked version
 - **Modified Http header**  
-A forked version of [seneca-web-adapter-express]() which add ability for user to modify the final http response header sent to user. With this modified adapter now you can set;
+This is a forked version of [seneca-web-adapter-express]() which add ability for user to modify the final http response header sent to user. With this modified adapter now you can set;
   - http header
   - http status
   - http cookie  

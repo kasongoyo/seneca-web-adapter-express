@@ -34,7 +34,7 @@
     "test-debug": "node --debug-brk=5858 node_modules/lab/bin/lab -v -m 5000000",
     "coveralls": "lab -s -r lcov | coveralls",
     "coverage": "lab -v -L -r html > docs/coverage.html",
-    "annotate": "docco web.js -o docs/annotated"
+    "annotate": "docco seneca-web-adapter-express.js -o docs/annotated"
   },
   "files": [
     "LICENSE",

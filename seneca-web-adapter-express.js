@@ -100,10 +100,11 @@ function handleRoute (seneca, options, request, reply, route, next) {
           // web$ is not set so use standard adapter response
           return reply.send(response)
         }
-        // set http status
+        // set http status on http response
         reply.status(web$.status || 200)
-        // set cookies
+        // set cookies on http response if exist
         if (web$.cookies) {
+          // cookie exist
           Object.keys(web$.cookies).forEach(cookieName => {
             const cookie = web$.cookies[cookieName]
             reply.cookie(cookieName, cookie.value, cookie.options || {})
